@@ -1,25 +1,23 @@
 import React from 'react' 
 import Meal from './meal'
+import { connect } from 'react-redux'
+import { addMeals, selectedMeal } from '../action/addMeal'
 class FavMeals extends React.Component {
-    state = {
-        meals: null
-    }
+   
     componentDidMount(){
         fetch("http://localhost:3000/recipes")
         .then(resp => resp.json())
-        .then(meals => this.setState({meals}))
+        .then(meals => this.props.addMeals(meals))
     }
     renderFavoriteMeals() {
-        if(this.state.meals){
-            return this.state.meals.map(meal => (<Meal handleImageClick={this.handleImageClick} key={meal.id} meal={{id: meal.id, strMealThumb : meal.image, strMeal: meal.name}} fav={true}/>))
+        
+        if(this.props.meals){
+            return this.props.meals.map(meal => (<Meal key={meal.id} meal={{id: meal.id, strMealThumb : meal.image, strMeal: meal.name, ingredients: meal.ingredients}} fav={true}/>))
         }
     }
-    handleImageClick = function () {
-        // display Detail HERE!!!!!
-        // create a route and call it here!!!!
-    }
+    
     render(){
-        
+       
         return (
             <div className="fav-meal" id="fav-meal">
                 <h1>Favorite MEALs</h1>
@@ -30,5 +28,16 @@ class FavMeals extends React.Component {
         )
     }
 }
-
-export default FavMeals
+const mSTP = function(state){
+    return {
+        meals: state.meals,
+        id: state.id
+    }
+}
+const dSTP = function(dispatch){
+    return {
+        addMeals: meals => dispatch(addMeals(meals)),
+        selectMeal: id => dispatch(selectedMeal(id))
+    }
+}
+export default connect(mSTP, dSTP)(FavMeals)

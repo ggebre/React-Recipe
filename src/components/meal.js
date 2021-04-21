@@ -1,6 +1,8 @@
 import React from 'react' 
+import { connect } from 'react-redux'
+import { selectedMeal } from '../action/addMeal'
 
-export default function Meal (props) {
+function Meal (props) {
     const handleClick = function () {
         fetch('http://localhost:3000/recipes/'+ props.meal.id, {
             method: 'DELETE', // or 'PUT'
@@ -10,6 +12,10 @@ export default function Meal (props) {
           })
           .then(resp => console.log(resp))   
     }
+    const handleImageClick = function () {
+        console.log("CLICKED!!!!")
+        props.selectedMeal(props.meal)
+    }
     
     return (
         <div>
@@ -17,7 +23,7 @@ export default function Meal (props) {
                 ?
                 <div> 
                     {props.fav ? <button onClick={handleClick}>X</button> : null}
-                    <img onClick={props.handleImageClick} src={props.meal.strMealThumb} alt={props.meal.strMeal}/>
+                    <img onClick={handleImageClick} src={props.meal.strMealThumb} alt={props.meal.strMeal}/>
                     <h2>{props.meal.strMeal}</h2>
                 </div>
                : 
@@ -26,3 +32,10 @@ export default function Meal (props) {
         </div>
     )
 }
+
+const dSTP = function(dispatch){
+    return {
+        selectedMeal: meal => dispatch(selectedMeal(meal))
+    }
+}
+export default connect(null, dSTP)(Meal)

@@ -1,22 +1,23 @@
 import React from 'react' 
 import Meal from './meal'
+import MealInfo from './mealDetail'
+
+import { connect } from 'react-redux'
+import { addMeal, likeMeal } from '../action/addMeal'
 class NewMeal extends React.Component {
-    state = {
-        meal: null,
-        like: true
-    }
+    
     componentDidMount(){
         fetch("https://www.themealdb.com/api/json/v1/1/random.php")
         .then(resp => resp.json())
-        .then(randMeal => this.setState({meal : randMeal.meals[0]}))
+        .then(randMeal => this.props.addMeal(randMeal.meals[0]))
         // fetch from the api the f
     }
     addToFavorites(){
         // POST a meal after selected 
-        const ingredients_attributes = this.recipeIngriedients(this.state.meal)
+        const ingredients_attributes = this.recipeIngriedients(this.props.meal)
         const mealData = {
-            name: this.state.meal.strMeal,
-            image: this.state.meal.strMealThumb,
+            name: this.props.meal.strMeal,
+            image: this.props.meal.strMealThumb,
             ingredients_attributes
         }
         
@@ -46,8 +47,8 @@ class NewMeal extends React.Component {
         return ingriedients 
     }
     handleClick = () => {
-        // if this.state.like is true, post this meal to database and update interface 
-        this.setState({ like : !this.state.like})
+        
+        this.props.likeMeal()
         this.addToFavorites()
         // favorite meals must be fetched and update the favorite list
     }
@@ -56,11 +57,30 @@ class NewMeal extends React.Component {
         
         return (
             <div className="random-meal" id="random-meal"> 
-                <Meal meal={this.state.meal}/>
-                <button onClick={this.handleClick}>{this.state.like ? "LIKE" : "Dislike"}</button>
+                <Meal/>
+                <button onClick={this.handleClick}>{this.props.like ? "LIKE" : "Dislike"}</button>
+                {
+                    this.props.selected
+                        ?
+                        <MealInfo />
+                        : 
+                        null 
+                }
             </div>
         )
     }
 }
-
-export default NewMeal
+const mSTP = function(state){
+    return {
+        meal: state.meal,
+        like: state.like,
+        selected: state.selected
+    }
+}
+const dSTP = function(dispatch){
+    return {
+        addMeal: meal => dispatch(addMeal(meal)),
+        likeMeal: () => dispatch(likeMeal())
+    }
+}
+export default connect(mSTP, dSTP)(NewMeal)
