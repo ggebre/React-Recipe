@@ -30,7 +30,7 @@ class FavMeals extends React.Component {
        
         return (
             <div className="fav-meal" id="fav-meal">
-                <h1>Favorite MEALs</h1>
+
                 {
                     this.renderFavoriteMeals()
                 } 

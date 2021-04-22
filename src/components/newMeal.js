@@ -20,7 +20,7 @@ class NewMeal extends React.Component {
             idMeal: this.props.meal.idMeal,
             ingredients_attributes
         }
-        console.log(mealData)
+     
         fetch('http://localhost:3000/recipes', {
             method: 'POST', // or 'PUT'
             headers: {
@@ -29,7 +29,11 @@ class NewMeal extends React.Component {
             body: JSON.stringify(mealData),
           })
           .then(resp => resp.json())
-          .then(meal => console.log(meal))
+          .then(meal => {
+            fetch("http://localhost:3000/recipes")
+            .then(resp => resp.json())
+            .then(meals => this.props.addMeals(meals))
+          })
         
     }
     recipeIngriedients (meal){
@@ -50,11 +54,6 @@ class NewMeal extends React.Component {
         
         this.props.likeMeal()
         this.addToFavorites()
-        // favorite meals must be fetched and update the favorite list
-        
-        fetch("http://localhost:3000/recipes")
-        .then(resp => resp.json())
-        .then(meals => this.props.addMeals(meals))
     }
     
     render(){
@@ -71,7 +70,7 @@ const mSTP = function(state){
     return {
         meal: state.meal,
         like: state.like,
-        selected: state.selected
+        // selected: state.selected
     }
 }
 const dSTP = function(dispatch){

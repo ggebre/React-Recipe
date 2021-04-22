@@ -11,3 +11,42 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+body {
+  background-color: beige;
+  max-width: 600px;
+  width: 600px;
+  margin: 3px auto;
+}
+.fav-meal{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fav-meal img {
+  border-radius: 50%;
+  width: 100px;
+}
+.fav-meal h2 {
+  font-size: 1rem;
+}
+
+.meal {
+  position: relative;
+  margin: 0.5rem;
+}
+.meal button {
+  position: absolute;
+  border: none;
+  top: 0px;
+  left: 0px;
+} 
+.random-meal{
+  
+  height: 200px;
+
+}
+.random-meal img {
+  max-width: 100%;
+  max-height: 100%;
+}

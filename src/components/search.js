@@ -10,14 +10,16 @@ class Search extends React.Component {
         fetch("https://www.themealdb.com/api/json/v1/1/search.php?s=" + this.state.term)
         .then(resp => resp.json())
         .then(meal => this.props.addMeal(meal.meals[0]))
+
+        this.setState({term: null})
     }
     handleChange = (e) => {
         this.setState({term: e.target.value})
     }
     render() {
         return (
-            <div>
-                <input onChange={(e) => this.handleChange(e)} type="text" />
+            <div className="search">
+                <input onChange={(e) => this.handleChange(e)} type="text" value={this.state.term}/>
                 <button onClick={this.handleClick}>SEARCH</button>
             </div>
         )

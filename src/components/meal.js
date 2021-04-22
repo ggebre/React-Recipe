@@ -1,6 +1,6 @@
 import React from 'react' 
 import { connect } from 'react-redux'
-import { recipeSelected } from '../action/addMeal'
+import { recipeSelected, addMeals } from '../action/addMeal'
 import { NavLink } from 'react-router-dom'
 
 function Meal (props) {
@@ -11,7 +11,14 @@ function Meal (props) {
               'Content-Type': 'application/json',
             }
           })
-          .then(resp => console.log(resp))   
+          .then(resp => {
+            fetch("http://localhost:3000/recipes")
+            .then(resp => resp.json())
+            .then(meals => props.addMeals(meals))
+          })
+          
+        //   fetch favorites and update page...once it is deleted
+          
     }
     const handleImageClick = function () {
        
@@ -19,7 +26,7 @@ function Meal (props) {
     }
     
     return (
-        <div>
+        <div className="meal">
             { props.meal
                 ?
                 <div> 
@@ -36,9 +43,11 @@ function Meal (props) {
     )
 }
 
-const dSTP = function(dispatch){
+
+const mDTP = function(dispatch){
     return {
+        addMeals: meals => dispatch(addMeals(meals)),
         recipeSelected: id => dispatch(recipeSelected(id))
     }
 }
-export default connect(null, dSTP)(Meal)
+export default connect(null, mDTP)(Meal)

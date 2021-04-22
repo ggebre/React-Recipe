@@ -1,6 +1,6 @@
 import React from 'react' 
 import { connect } from 'react-redux'
-
+import { NavLink } from 'react-router-dom'
 class MealInfo extends React.Component {
     state ={
         meal: null 
@@ -37,7 +37,10 @@ class MealInfo extends React.Component {
         
         return (
             <div className="meal-detail" id="meal-detail">
-                <button>CLOSE</button>
+                <NavLink to="/">
+                    <button>CLOSE</button>
+
+                </NavLink>
                 {
                     this.state.meal 
                         ?
