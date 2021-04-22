@@ -22,3 +22,9 @@ export const selectedMeal = function (selected){
         selected
     }
 }
+export const recipeSelected = function (id){
+    return {
+        type: "SELECT_ID",
+        id
+    }
+}

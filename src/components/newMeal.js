@@ -1,9 +1,7 @@
 import React from 'react' 
 import Meal from './meal'
-import MealInfo from './mealDetail'
-
 import { connect } from 'react-redux'
-import { addMeal, likeMeal } from '../action/addMeal'
+import { addMeal, addMeals, likeMeal } from '../action/addMeal'
 class NewMeal extends React.Component {
     
     componentDidMount(){
@@ -18,9 +16,11 @@ class NewMeal extends React.Component {
         const mealData = {
             name: this.props.meal.strMeal,
             image: this.props.meal.strMealThumb,
+            strInstructions: this.props.meal.strInstructions,
+            idMeal: this.props.meal.idMeal,
             ingredients_attributes
         }
-        
+        console.log(mealData)
         fetch('http://localhost:3000/recipes', {
             method: 'POST', // or 'PUT'
             headers: {
@@ -51,21 +51,18 @@ class NewMeal extends React.Component {
         this.props.likeMeal()
         this.addToFavorites()
         // favorite meals must be fetched and update the favorite list
+        
+        fetch("http://localhost:3000/recipes")
+        .then(resp => resp.json())
+        .then(meals => this.props.addMeals(meals))
     }
     
     render(){
         
         return (
             <div className="random-meal" id="random-meal"> 
-                <Meal/>
+                <Meal meal={this.props.meal}/>
                 <button onClick={this.handleClick}>{this.props.like ? "LIKE" : "Dislike"}</button>
-                {
-                    this.props.selected
-                        ?
-                        <MealInfo />
-                        : 
-                        null 
-                }
             </div>
         )
     }
@@ -80,7 +77,8 @@ const mSTP = function(state){
 const dSTP = function(dispatch){
     return {
         addMeal: meal => dispatch(addMeal(meal)),
-        likeMeal: () => dispatch(likeMeal())
+        likeMeal: () => dispatch(likeMeal()),
+        addMeals: meals => dispatch(addMeals(meals))
     }
 }
 export default connect(mSTP, dSTP)(NewMeal)

@@ -1,6 +1,7 @@
 import React from 'react' 
 import { connect } from 'react-redux'
-import { selectedMeal } from '../action/addMeal'
+import { recipeSelected } from '../action/addMeal'
+import { NavLink } from 'react-router-dom'
 
 function Meal (props) {
     const handleClick = function () {
@@ -13,8 +14,8 @@ function Meal (props) {
           .then(resp => console.log(resp))   
     }
     const handleImageClick = function () {
-        console.log("CLICKED!!!!")
-        props.selectedMeal(props.meal)
+       
+        props.recipeSelected(props.meal.idMeal)
     }
     
     return (
@@ -23,7 +24,9 @@ function Meal (props) {
                 ?
                 <div> 
                     {props.fav ? <button onClick={handleClick}>X</button> : null}
-                    <img onClick={handleImageClick} src={props.meal.strMealThumb} alt={props.meal.strMeal}/>
+                    <NavLink to="/recipe" exact>
+                        <img onClick={handleImageClick} src={props.meal.strMealThumb} alt={props.meal.strMeal}/>
+                        </NavLink>
                     <h2>{props.meal.strMeal}</h2>
                 </div>
                : 
@@ -35,7 +38,7 @@ function Meal (props) {
 
 const dSTP = function(dispatch){
     return {
-        selectedMeal: meal => dispatch(selectedMeal(meal))
+        recipeSelected: id => dispatch(recipeSelected(id))
     }
 }
 export default connect(null, dSTP)(Meal)

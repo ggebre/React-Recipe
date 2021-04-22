@@ -12,8 +12,18 @@ class FavMeals extends React.Component {
     renderFavoriteMeals() {
         
         if(this.props.meals){
-            return this.props.meals.map(meal => (<Meal key={meal.id} meal={{id: meal.id, strMealThumb : meal.image, strMeal: meal.name, ingredients: meal.ingredients}} fav={true}/>))
+            return this.props.meals.map(meal => (<Meal key={meal.id} meal={this.formatedMeal(meal)} fav={true}/>))
         }
+    }
+    formatedMeal(meal){
+        
+        return {id: meal.id, 
+                strMealThumb : meal.image, 
+                strMeal: meal.name, 
+                ingredients: meal.ingredients, 
+                idMeal: meal.idMeal,
+                strInstructions: meal.strInstructions
+            }
     }
     
     render(){
