@@ -29,11 +29,22 @@ class NewMeal extends React.Component {
             body: JSON.stringify(mealData),
           })
           .then(resp => resp.json())
-          .then(meal => {
-            fetch("http://localhost:3000/recipes")
-            .then(resp => resp.json())
-            .then(meals => this.props.addMeals(meals))
-          })
+          .then(meal => this.fetchFavorites())
+        
+    } 
+    fetchFavorites(){
+        fetch("http://localhost:3000/recipes")
+        .then(resp => resp.json())
+        .then(meals => this.props.addMeals(meals))
+    }
+    dislikeFavorite(){
+        let favLength = this.props.meals.length 
+        let lastFavoriteSaved = this.props.meals[favLength - 1].id 
+        fetch("http://localhost:3000/recipes/"+ lastFavoriteSaved, {
+            method: 'DELETE',
+    
+        })
+        .then(resp => this.fetchFavorites())
         
     }
     recipeIngriedients (meal){
@@ -52,8 +63,13 @@ class NewMeal extends React.Component {
     }
     handleClick = () => {
         
+        if (this.props.like){
+            this.addToFavorites()
+        }else{
+            this.dislikeFavorite()
+        }
+        
         this.props.likeMeal()
-        this.addToFavorites()
     }
     
     render(){
@@ -68,9 +84,9 @@ class NewMeal extends React.Component {
 }
 const mSTP = function(state){
     return {
+        meals: state.meals,
         meal: state.meal,
         like: state.like,
-        // selected: state.selected
     }
 }
 const dSTP = function(dispatch){
