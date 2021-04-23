@@ -7,7 +7,11 @@ class MealInfo extends React.Component {
     }
     componentDidMount(){
         // fetch the recipe with the given id....
-        fetch("https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + this.props.recipeId)
+        let url = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + this.props.recipeId
+        this.fetchSelectedMeal(url)
+    }
+    fetchSelectedMeal = function(url){
+        fetch(url)
         .then(resp => resp.json())
         .then(meal => this.setState({meal: meal.meals[0]}))
     }

@@ -7,11 +7,15 @@ class Search extends React.Component {
         term: ""
     }
     handleClick = () => {
-        fetch("https://www.themealdb.com/api/json/v1/1/search.php?s=" + this.state.term)
+        let url = "https://www.themealdb.com/api/json/v1/1/search.php?s=" + this.state.term
+        this.fetchMeal(url)
+        this.setState({term: ""})
+    }
+
+    fetchMeal = function(url){
+        fetch(url)
         .then(resp => resp.json())
         .then(meal => this.props.addMeal(meal.meals[0]))
-
-        this.setState({term: ""})
     }
     handleChange = (e) => {
         this.setState({term: e.target.value})

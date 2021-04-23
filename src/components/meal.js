@@ -5,20 +5,26 @@ import { NavLink } from 'react-router-dom'
 
 function Meal (props) {
     const handleClick = function () {
-        fetch('http://localhost:3000/recipes/'+ props.meal.id, {
+        
+        let url = 'http://localhost:3000/recipes/' + props.meal.id
+          deleteFavorite(url)
+          .then(resp => fetchFavorites("http://localhost:3000/recipes"))
+          
+        //   fetch favorites and update page...once it is deleted
+          
+    }
+    const fetchFavorites = function(url){
+        fetch(url)
+        .then(resp => resp.json())
+        .then(meals => props.addMeals(meals))
+    }
+    const deleteFavorite = function(url){
+        return fetch(url, {
             method: 'DELETE', // or 'PUT'
             headers: {
               'Content-Type': 'application/json',
             }
           })
-          .then(resp => {
-            fetch("http://localhost:3000/recipes")
-            .then(resp => resp.json())
-            .then(meals => props.addMeals(meals))
-          })
-          
-        //   fetch favorites and update page...once it is deleted
-          
     }
     const handleImageClick = function () {
        

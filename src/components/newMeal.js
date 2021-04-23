@@ -5,33 +5,33 @@ import { addMeal, addMeals, likeMeal } from '../action/addMeal'
 class NewMeal extends React.Component {
     
     componentDidMount(){
-        fetch("https://www.themealdb.com/api/json/v1/1/random.php")
-        .then(resp => resp.json())
-        .then(randMeal => this.props.addMeal(randMeal.meals[0]))
         // fetch from the api the f
+        this.fetchRandomMeal("https://www.themealdb.com/api/json/v1/1/random.php")
     }
     addToFavorites(){
         // POST a meal after selected 
         const ingredients_attributes = this.recipeIngriedients(this.props.meal)
-        const mealData = {
-            name: this.props.meal.strMeal,
-            image: this.props.meal.strMealThumb,
-            strInstructions: this.props.meal.strInstructions,
-            idMeal: this.props.meal.idMeal,
-            ingredients_attributes
-        }
-     
-        fetch('http://localhost:3000/recipes', {
+    
+        const mealData = {...this.props.meal, ingredients_attributes}
+        
+        this.postFavorites('http://localhost:3000/recipes', mealData)
+    } 
+    fetchRandomMeal(url){
+        fetch(url)
+        .then(resp => resp.json())
+        .then(randMeal => this.props.addMeal(randMeal.meals[0]))
+    }
+    postFavorites(url, data){
+        fetch(url, {
             method: 'POST', // or 'PUT'
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify(mealData),
+            body: JSON.stringify(data),
           })
           .then(resp => resp.json())
           .then(meal => this.fetchFavorites())
-        
-    } 
+    }
     fetchFavorites(){
         fetch("http://localhost:3000/recipes")
         .then(resp => resp.json())
