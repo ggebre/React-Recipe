@@ -1,6 +1,6 @@
 import React from 'react' 
 import { connect } from 'react-redux'
-import { addMeal } from '../action/addMeal'
+import { fetchMeal } from '../action/addMeal'
 
 class Search extends React.Component {
     state = {
@@ -8,14 +8,8 @@ class Search extends React.Component {
     }
     handleClick = () => {
         let url = "https://www.themealdb.com/api/json/v1/1/search.php?s=" + this.state.term
-        this.fetchMeal(url)
+        this.props.fetchMeal(url)
         this.setState({term: ""})
-    }
-
-    fetchMeal = function(url){
-        fetch(url)
-        .then(resp => resp.json())
-        .then(meal => this.props.addMeal(meal.meals[0]))
     }
     handleChange = (e) => {
         this.setState({term: e.target.value})
@@ -30,15 +24,11 @@ class Search extends React.Component {
     }
     
 }
-const mSTP = state => {
-    return {
-        meal: state.meal 
-    }
-}
+
 const mDTP = dispatch => {
     return {
-        addMeal: meal => dispatch(addMeal(meal))
+        fetchMeal: url => dispatch(fetchMeal(url))
     }
 }
 
-export default connect(mSTP, mDTP)(Search)
+export default connect(null, mDTP)(Search)

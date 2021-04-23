@@ -1,33 +1,14 @@
 import React from 'react' 
 import { connect } from 'react-redux'
-import { recipeSelected, addMeals } from '../action/addMeal'
+import { recipeSelected, dislikeMeal } from '../action/addMeal'
 import { NavLink } from 'react-router-dom'
 
 function Meal (props) {
     const handleClick = function () {
-        
-        let url = 'http://localhost:3000/recipes/' + props.meal.id
-          deleteFavorite(url)
-          .then(resp => fetchFavorites("http://localhost:3000/recipes"))
-          
-        //   fetch favorites and update page...once it is deleted
-          
+        props.dislikeMeal('http://localhost:3000/recipes', props.meal.id)   
     }
-    const fetchFavorites = function(url){
-        fetch(url)
-        .then(resp => resp.json())
-        .then(meals => props.addMeals(meals))
-    }
-    const deleteFavorite = function(url){
-        return fetch(url, {
-            method: 'DELETE', // or 'PUT'
-            headers: {
-              'Content-Type': 'application/json',
-            }
-          })
-    }
+    
     const handleImageClick = function () {
-       
         props.recipeSelected(props.meal.idMeal)
     }
     
@@ -52,8 +33,8 @@ function Meal (props) {
 
 const mDTP = function(dispatch){
     return {
-        addMeals: meals => dispatch(addMeals(meals)),
-        recipeSelected: id => dispatch(recipeSelected(id))
+        recipeSelected: id => dispatch(recipeSelected(id)),
+        dislikeMeal: (url, id) => dispatch(dislikeMeal(url, id))
     }
 }
 export default connect(null, mDTP)(Meal)

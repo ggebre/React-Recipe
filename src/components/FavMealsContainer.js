@@ -1,13 +1,12 @@
 import React from 'react' 
 import Meal from './meal'
 import { connect } from 'react-redux'
-import { addMeals, selectedMeal } from '../action/addMeal'
+import {fetchMeals } from '../action/addMeal'
 class FavMeals extends React.Component {
    
     componentDidMount(){
-        fetch("http://localhost:3000/recipes")
-        .then(resp => resp.json())
-        .then(meals => this.props.addMeals(meals))
+        
+        this.props.fetchMeals("http://localhost:3000/recipes")
     }
     renderFavoriteMeals() {
         
@@ -20,7 +19,6 @@ class FavMeals extends React.Component {
        
         return (
             <div className="fav-meal" id="fav-meal">
-
                 {
                     this.renderFavoriteMeals()
                 } 
@@ -31,13 +29,12 @@ class FavMeals extends React.Component {
 const mSTP = function(state){
     return {
         meals: state.meals,
-        id: state.id
+       
     }
 }
 const dSTP = function(dispatch){
     return {
-        addMeals: meals => dispatch(addMeals(meals)),
-        selectMeal: id => dispatch(selectedMeal(id))
+        fetchMeals: url => dispatch(fetchMeals(url))
     }
 }
 export default connect(mSTP, dSTP)(FavMeals)

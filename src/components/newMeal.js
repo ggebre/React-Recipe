@@ -1,12 +1,12 @@
 import React from 'react' 
 import Meal from './meal'
 import { connect } from 'react-redux'
-import { addMeal, addMeals, likeMeal } from '../action/addMeal'
+import {likeMeal, fetchMeal, fetchMeals, postMeal, dislikeMeal } from '../action/addMeal'
 class NewMeal extends React.Component {
     
     componentDidMount(){
         // fetch from the api the f
-        this.fetchRandomMeal("https://www.themealdb.com/api/json/v1/1/random.php")
+        this.props.fetchMeal("https://www.themealdb.com/api/json/v1/1/random.php")
     }
     addToFavorites(){
         // POST a meal after selected 
@@ -14,37 +14,14 @@ class NewMeal extends React.Component {
     
         const mealData = {...this.props.meal, ingredients_attributes}
         
-        this.postFavorites('http://localhost:3000/recipes', mealData)
+        this.props.postMeal('http://localhost:3000/recipes', mealData)
     } 
-    fetchRandomMeal(url){
-        fetch(url)
-        .then(resp => resp.json())
-        .then(randMeal => this.props.addMeal(randMeal.meals[0]))
-    }
-    postFavorites(url, data){
-        fetch(url, {
-            method: 'POST', // or 'PUT'
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          })
-          .then(resp => resp.json())
-          .then(meal => this.fetchFavorites())
-    }
-    fetchFavorites(){
-        fetch("http://localhost:3000/recipes")
-        .then(resp => resp.json())
-        .then(meals => this.props.addMeals(meals))
-    }
+    
     dislikeFavorite(){
         let favLength = this.props.meals.length 
         let lastFavoriteSaved = this.props.meals[favLength - 1].id 
-        fetch("http://localhost:3000/recipes/"+ lastFavoriteSaved, {
-            method: 'DELETE',
-    
-        })
-        .then(resp => this.fetchFavorites())
+        
+        this.props.dislikeMeal("http://localhost:3000/recipes", lastFavoriteSaved)
         
     }
     recipeIngriedients (meal){
@@ -62,13 +39,11 @@ class NewMeal extends React.Component {
         return ingriedients 
     }
     handleClick = () => {
-        
         if (this.props.like){
             this.addToFavorites()
         }else{
             this.dislikeFavorite()
         }
-        
         this.props.likeMeal()
     }
     
@@ -91,9 +66,11 @@ const mSTP = function(state){
 }
 const dSTP = function(dispatch){
     return {
-        addMeal: meal => dispatch(addMeal(meal)),
         likeMeal: () => dispatch(likeMeal()),
-        addMeals: meals => dispatch(addMeals(meals))
+        fetchMeal: url => dispatch(fetchMeal(url)),
+        fetchMeals: url => dispatch(fetchMeals(url)),
+        postMeal: (url, data) => dispatch(postMeal(url, data)),
+        dislikeMeal: (url, id) => dispatch(dislikeMeal(url, id))
     }
 }
 export default connect(mSTP, dSTP)(NewMeal)

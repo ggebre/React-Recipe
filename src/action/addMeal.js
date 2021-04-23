@@ -28,3 +28,51 @@ export const recipeSelected = function (id){
         id
     }
 }
+
+export const fetchMeals = function(url){
+    return dispatch => {
+        fetch(url)
+            .then(resp => resp.json())
+            .then(meals => dispatch({
+                type: "ADD_MEALS",
+                meals
+            }))
+    }
+}
+export const fetchMeal = function(url){
+    return dispatch => {
+        fetch(url)
+            .then(resp => resp.json())
+            .then(meal => dispatch({
+                type: "ADD_MEAL",
+                meal: meal.meals[0]
+            }))
+    }
+}
+export const postMeal = function(url, data){
+    return dispatch => {
+        fetch(url, {
+            method: 'POST', // or 'PUT'
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(resp => resp.json())
+        .then(meal => dispatch(fetchMeals(url)))
+    }
+}
+export const dislikeMeal = function(url, id){
+    return dispatch => {
+        let elementUrl = `${url + '/' + id}` 
+        fetch(elementUrl, {
+            method: 'DELETE', // or 'PUT'
+        })
+        .then(meal => dispatch(fetchMeals(url)))
+    }
+}
+// export const searchMeal = function(url){
+//     return dispatch => {
+//         fetch(url)
+//     }
+// }
