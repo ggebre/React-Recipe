@@ -1,6 +1,6 @@
 import React from 'react' 
 import { connect } from 'react-redux'
-import { recipeSelected, dislikeMeal } from '../action/addMeal'
+import { recipeSelected, dislikeMeal } from '../../action/addMeal'
 import { NavLink } from 'react-router-dom'
 
 function Meal (props) {
@@ -29,8 +29,6 @@ function Meal (props) {
         </div>
     )
 }
-
-
 const mDTP = function(dispatch){
     return {
         recipeSelected: id => dispatch(recipeSelected(id)),

@@ -1,3 +1,4 @@
+
 export const addMeals = function(meals) {
     return {
         type: "ADD_MEALS",
@@ -31,7 +32,12 @@ export const recipeSelected = function (id){
 
 export const fetchMeals = function(url){
     return dispatch => {
-        fetch(url)
+        fetch(url ,{
+            method: 'GET', 
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': JSON.parse(sessionStorage.token).token
+            }})
             .then(resp => resp.json())
             .then(meals => dispatch({
                 type: "ADD_MEALS",
@@ -39,6 +45,12 @@ export const fetchMeals = function(url){
             }))
     }
 }
+// ,{
+//     method: 'GET', 
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Authorization': sessionStorage.token
+//     }}
 export const fetchMeal = function(url){
     return dispatch => {
         fetch(url)
@@ -55,6 +67,7 @@ export const postMeal = function(url, data){
             method: 'POST', // or 'PUT'
             headers: {
               'Content-Type': 'application/json',
+              'Authorization': JSON.parse(sessionStorage.token).token
             },
             body: JSON.stringify(data),
         })
@@ -67,6 +80,9 @@ export const dislikeMeal = function(url, id){
         let elementUrl = `${url + '/' + id}` 
         fetch(elementUrl, {
             method: 'DELETE', // or 'PUT'
+            headers: {
+                'Authorization': JSON.parse(sessionStorage.token).token
+            }
         })
         .then(meal => dispatch(fetchMeals(url)))
     }

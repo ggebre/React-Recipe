@@ -1,6 +1,6 @@
 import React from 'react' 
 import { connect } from 'react-redux'
-import { fetchMeal } from '../action/addMeal'
+import { fetchMeal } from '../../action/addMeal'
 
 class Search extends React.Component {
     state = {
@@ -24,7 +24,6 @@ class Search extends React.Component {
     }
     
 }
-
 const mDTP = dispatch => {
     return {
         fetchMeal: url => dispatch(fetchMeal(url))

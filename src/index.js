@@ -8,19 +8,13 @@ import mealsReducer from './reducer/mealReducer'
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import MealInfo from './components/mealDetail'
+
 
 const store = createStore(mealsReducer, applyMiddleware(thunk))
 ReactDOM.render(
-  
     <Provider store={store}>
-      <Router>
-          <Route  exact path='/' component={App} /> 
-          <Route  exact path='/recipe' component={MealInfo} /> 
-      </Router>
+      <App />
     </Provider>
-  
   ,
   document.getElementById('root')
 );

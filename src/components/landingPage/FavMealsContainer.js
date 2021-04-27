@@ -1,11 +1,10 @@
 import React from 'react' 
 import Meal from './meal'
 import { connect } from 'react-redux'
-import {fetchMeals } from '../action/addMeal'
+import {fetchMeals } from '../../action/addMeal'
 class FavMeals extends React.Component {
    
     componentDidMount(){
-        
         this.props.fetchMeals("http://localhost:3000/recipes")
     }
     renderFavoriteMeals() {
