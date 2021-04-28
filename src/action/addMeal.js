@@ -31,6 +31,7 @@ export const recipeSelected = function (id){
 }
 
 export const fetchMeals = function(url){
+    console.log(url)
     return dispatch => {
         fetch(url ,{
             method: 'GET', 

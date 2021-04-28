@@ -38,7 +38,10 @@ export default function Login({setToken}){
 }
 
 async function loginUser(credentials) {
-    return fetch('http://localhost:3000/login', {
+    let url = 'https://myrecipegg.herokuapp.com/login'
+    // let url = 'http://localhost:3000/login'
+
+    return fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
