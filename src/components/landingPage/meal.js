@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom'
 
 function Meal (props) {
     const handleClick = function () {
-        props.dislikeMeal('https://myrecipegg.herokuapp.com/recipes', props.meal.id)   
+        props.dislikeMeal('https://myrecipe-gg.herokuapp.com/recipes', props.meal.id)   
         // props.dislikeMeal('http://localhost:3000/recipes', props.meal.id)   
         
     }

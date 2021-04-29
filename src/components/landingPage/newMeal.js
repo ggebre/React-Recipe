@@ -14,7 +14,7 @@ class NewMeal extends React.Component {
     
         const mealData = {...this.props.meal, ingredients_attributes}
         
-        this.props.postMeal('https://myrecipegg.herokuapp.com/recipes', mealData)
+        this.props.postMeal('https://myrecipe-gg.herokuapp.com/recipes', mealData)
         // this.props.postMeal('http://localhost:3000/recipes', mealData)
         
     } 
@@ -24,7 +24,7 @@ class NewMeal extends React.Component {
         let lastFavoriteSaved = this.props.meals[favLength - 1].id 
         
         // this.props.dislikeMeal("http://localhost:3000/recipes", lastFavoriteSaved)
-        this.props.dislikeMeal("https://myrecipegg.herokuapp.com/recipes", lastFavoriteSaved)
+        this.props.dislikeMeal("https://myrecipe-gg.herokuapp.com/recipes", lastFavoriteSaved)
         
     }
     recipeIngriedients (meal){

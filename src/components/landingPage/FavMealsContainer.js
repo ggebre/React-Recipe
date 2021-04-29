@@ -6,7 +6,7 @@ class FavMeals extends React.Component {
    
     componentDidMount(){
         //  this.props.fetchMeals("http://localhost:3000/recipes")
-        this.props.fetchMeals("https://myrecipegg.herokuapp.com/recipes")
+        this.props.fetchMeals("https://myrecipe-gg.herokuapp.com/recipes")
        
     }
     renderFavoriteMeals() {

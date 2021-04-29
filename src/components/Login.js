@@ -38,7 +38,7 @@ export default function Login({setToken}){
 }
 
 async function loginUser(credentials) {
-    let url = 'https://myrecipegg.herokuapp.com/login'
+    let url = 'https://myrecipe-gg.herokuapp.com/login'
     // let url = 'http://localhost:3000/login'
 
     return fetch(url, {
